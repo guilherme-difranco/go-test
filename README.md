@@ -65,7 +65,7 @@ Contribuições são bem-vindas! Para contribuir com o projeto, siga estas etapa
 
 ## Autores
 
-- **Seu Nome** - Desenvolvimento inicial - [guilherme-difranco](https://github.com/guilherme-difranco)
+- **Guilherme Di Franco** - Desenvolvimento inicial - [guilherme-difranco](https://github.com/guilherme-difranco)
 
 ## Licença
 
