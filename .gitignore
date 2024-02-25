@@ -1,0 +1,53 @@
+# Binários compilados
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.bin
+
+# Diretórios de saída
+/dist
+/build
+/cmd
+/bin
+/vendor
+
+# Arquivos de depuração
+*.log
+*.nvram
+*.swp
+*.swo
+*.tmp
+*.temp
+
+# Dependências
+Gopkg.lock
+go.sum
+
+# IDEs e editores
+.idea/
+*.swp
+*.swo
+.vscode/
+*.sublime-workspace
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Outros
+*.gz
+*.tar
+*.zip
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Pasta que podem conter dados sensíveis
+certs/
+secret/
