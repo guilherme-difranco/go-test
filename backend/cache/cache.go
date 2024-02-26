@@ -12,4 +12,6 @@ type CacheService interface {
 	StoreAllPriorities(priorities []domain.Priority)
 	StoreAllStatuses(statuses []domain.Status)
 	InitializeCache()
+	GetAllPriorities() ([]domain.Priority, error)
+	GetAllStatuses() ([]domain.Status, error)
 }

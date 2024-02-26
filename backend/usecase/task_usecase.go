@@ -6,6 +6,7 @@ import (
 
 	"github.com/guilherme-difranco/go-test/domain"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type taskUsecase struct {
@@ -38,12 +39,24 @@ func (tu *taskUsecase) FetchByUserID(c context.Context, userID string) ([]domain
 	return tu.taskRepository.FetchByUserID(ctx, userID)
 }
 
-func (uc *taskUsecase) FetchUserTasks(c context.Context, filter, projection bson.M, limit, skip int64) ([]domain.Task, error) {
+func (tu *taskUsecase) FetchUserTasks(c context.Context, filter, projection bson.M, limit, skip int64) ([]domain.Task, error) {
 	//filter := bson.M{"userID": userID}
 	//projection := bson.M{"title": 1, "status": 1}
-	tasks, err := uc.taskRepository.FetchTasks(c, filter, projection, limit, skip)
+	tasks, err := tu.taskRepository.FetchTasks(c, filter, projection, limit, skip)
 	if err != nil {
 		return nil, err
 	}
 	return tasks, nil
+}
+
+func (tu *taskUsecase) Update(ctx context.Context, id string, task domain.Task) error {
+	return tu.taskRepository.Update(ctx, id, task)
+}
+
+func (tu *taskUsecase) Delete(ctx context.Context, id string) error {
+	return tu.taskRepository.Delete(ctx, id)
+}
+
+func (tu *taskUsecase) FetchTaskByID(ctx context.Context, id primitive.ObjectID) (*domain.Task, error) {
+	return tu.taskRepository.FetchTaskByID(ctx, id)
 }

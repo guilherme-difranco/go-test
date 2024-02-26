@@ -20,6 +20,24 @@ func NewTaskController(taskUsecase domain.TaskUsecase) *TaskController {
 	}
 }
 
+func (tc *TaskController) Create(c *gin.Context) {
+	var task domain.Task
+
+	if err := c.ShouldBindJSON(&task); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	task.ID = primitive.NewObjectID()
+
+	if err := tc.TaskUsecase.Create(c.Request.Context(), &task); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Task created successfully", "task": task})
+}
+
 func (tc *TaskController) CreateBatch(c *gin.Context) {
 	var tasks []domain.Task
 
@@ -56,6 +74,23 @@ func (tc *TaskController) FetchByUserID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, tasks)
+}
+
+func (tc *TaskController) FetchTaskByID(c *gin.Context) {
+	taskID := c.Param("id") // Assumindo que o ID está na URL como /tasks/:id
+	objectID, err := primitive.ObjectIDFromHex(taskID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid task ID format"})
+		return
+	}
+
+	task, err := tc.TaskUsecase.FetchTaskByID(c.Request.Context(), objectID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch task"})
+		return
+	}
+
+	c.JSON(http.StatusOK, task)
 }
 
 // FetchTasks busca tarefas com suporte para filtragem, projeção, paginação e ordenação.
@@ -107,4 +142,30 @@ func (tc *TaskController) FetchTasks(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, tasks)
+}
+
+func (tc *TaskController) Update(c *gin.Context) {
+	var task domain.Task
+	if err := c.ShouldBindJSON(&task); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	id := c.Param("id")
+	if err := tc.TaskUsecase.Update(c.Request.Context(), id, task); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update task"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Task updated successfully"})
+}
+
+func (tc *TaskController) Delete(c *gin.Context) {
+	id := c.Param("id")
+	if err := tc.TaskUsecase.Delete(c.Request.Context(), id); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete task"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Task deleted successfully"})
 }

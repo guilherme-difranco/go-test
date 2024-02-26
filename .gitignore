@@ -26,6 +26,12 @@
 # Dependências
 Gopkg.lock
 go.sum
+node_modules/
+
+# Arquivos gerados automaticamente
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # IDEs e editores
 .idea/
@@ -51,3 +57,9 @@ Thumbs.db
 # Pasta que podem conter dados sensíveis
 certs/
 secret/
+
+# Arquivos específicos do React
+/public
+/.cache/
+/coverage/
+/build/

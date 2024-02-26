@@ -30,8 +30,9 @@ type TaskRepository interface {
 	CreateBatch(c context.Context, tasks []Task) error
 	FetchByUserID(c context.Context, userID string) ([]Task, error)
 	FetchTasks(c context.Context, filter bson.M, projection bson.M, limit, skip int64) ([]Task, error)
-	// Update(c context.Context, task *Task) error
-	// Delete(c context.Context, id primitive.ObjectID) error
+	Update(ctx context.Context, id string, task Task) error
+	Delete(ctx context.Context, id string) error
+	FetchTaskByID(ctx context.Context, id primitive.ObjectID) (*Task, error)
 }
 
 // TaskUsecase define as operações de caso de uso disponíveis para uma Task.
@@ -40,6 +41,7 @@ type TaskUsecase interface {
 	CreateBatch(c context.Context, tasks []Task) error
 	FetchByUserID(c context.Context, userID string) ([]Task, error)
 	FetchUserTasks(c context.Context, filter, projection bson.M, limit, skip int64) ([]Task, error)
-	// Update(c context.Context, task *Task) error
-	// Delete(c context.Context, id primitive.ObjectID) error
+	Update(ctx context.Context, id string, task Task) error
+	Delete(ctx context.Context, id string) error
+	FetchTaskByID(ctx context.Context, id primitive.ObjectID) (*Task, error)
 }

@@ -39,6 +39,15 @@ func (tr *taskRepository) CreateBatch(c context.Context, tasks []domain.Task) er
 	return err
 }
 
+func (r *taskRepository) FetchTaskByID(ctx context.Context, id primitive.ObjectID) (*domain.Task, error) {
+	var task domain.Task
+	err := r.database.Collection(r.collection).FindOne(ctx, bson.M{"_id": id}).Decode(&task)
+	if err != nil {
+		return nil, err
+	}
+	return &task, nil
+}
+
 func (tr *taskRepository) FetchByUserID(c context.Context, userID string) ([]domain.Task, error) {
 	collection := tr.database.Collection(tr.collection)
 
@@ -79,4 +88,22 @@ func (tr *taskRepository) FetchTasks(c context.Context, filter bson.M, projectio
 	}
 
 	return tasks, nil
+}
+
+func (tr *taskRepository) Update(ctx context.Context, id string, task domain.Task) error {
+	collection := tr.database.Collection(tr.collection)
+
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	filter := bson.M{"_id": objectID}
+	update := bson.M{"$set": task}
+	_, err := collection.UpdateOne(ctx, filter, update)
+	return err
+}
+
+func (tr *taskRepository) Delete(ctx context.Context, id string) error {
+	collection := tr.database.Collection(tr.collection)
+
+	objectID, _ := primitive.ObjectIDFromHex(id)
+	_, err := collection.DeleteOne(ctx, bson.M{"_id": objectID})
+	return err
 }

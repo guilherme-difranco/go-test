@@ -2,6 +2,7 @@ package cache
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"sync"
 
@@ -47,6 +48,27 @@ func (c *cacheServiceImpl) GetStatus(name string) (domain.Status, bool) {
 	return status, found
 }
 
+func (c *cacheServiceImpl) GetAllStatuses() ([]domain.Status, error) {
+	c.cacheMutex.RLock()
+	defer c.cacheMutex.RUnlock()
+
+	// Se a cache estiver vazia, inicializa a cache de prioridades.
+	if len(c.statusCache) == 0 {
+		c.InitializeCachePriorities()
+	}
+
+	var statuses []domain.Status
+	for _, status := range c.statusCache {
+		statuses = append(statuses, status)
+	}
+
+	if len(statuses) == 0 {
+		return nil, fmt.Errorf("no statuses found")
+	}
+
+	return statuses, nil
+}
+
 func (c *cacheServiceImpl) StorePriority(priority domain.Priority) {
 	c.cacheMutex.Lock()
 	defer c.cacheMutex.Unlock()
@@ -65,6 +87,27 @@ func (c *cacheServiceImpl) GetPriority(name string) (domain.Priority, bool) {
 		c.cacheMutex.RUnlock()
 	}
 	return priority, found
+}
+
+func (c *cacheServiceImpl) GetAllPriorities() ([]domain.Priority, error) {
+	c.cacheMutex.RLock()
+	defer c.cacheMutex.RUnlock()
+
+	// Se a cache estiver vazia, inicializa a cache de prioridades.
+	if len(c.priorityCache) == 0 {
+		c.InitializeCachePriorities()
+	}
+
+	var priorities []domain.Priority
+	for _, priority := range c.priorityCache {
+		priorities = append(priorities, priority)
+	}
+
+	if len(priorities) == 0 {
+		return nil, fmt.Errorf("no priorities found")
+	}
+
+	return priorities, nil
 }
 
 func (c *cacheServiceImpl) StoreAllPriorities(priorities []domain.Priority) {
