@@ -1,8 +1,13 @@
+// +heroku goVersion go1.22
+// +heroku install ./cmd/...
+
 module github.com/guilherme-difranco/go-test
 
 go 1.22
 
 toolchain go1.22.0
+
+
 
 require (
 	github.com/gin-gonic/gin v1.9.1
