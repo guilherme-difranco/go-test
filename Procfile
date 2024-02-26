@@ -1,1 +1,1 @@
-web: ./go-test-backend
+web: bin/cmd
