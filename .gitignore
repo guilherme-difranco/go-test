@@ -11,7 +11,6 @@
 # Diretórios de saída
 /dist
 /build
-/cmd
 /bin
 /vendor
 
