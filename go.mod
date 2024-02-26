@@ -7,8 +7,6 @@ go 1.22
 
 toolchain go1.22.0
 
-
-
 require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/spf13/viper v1.15.0

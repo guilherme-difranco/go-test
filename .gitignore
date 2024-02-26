@@ -6,59 +6,25 @@
 *.dylib
 *.test
 *.out
-*.bin
 
-# Diretórios de saída
-/dist
-/build
-/bin
-/vendor
+# Pastas de dependência
+/vendor/
+/node_modules/
 
-# Arquivos de depuração
+# Arquivos de log
 *.log
-*.nvram
-*.swp
-*.swo
-*.tmp
-*.temp
+*.sql
+*.sqlite
 
-# Dependências
-Gopkg.lock
-go.sum
-node_modules/
-
-# Arquivos gerados automaticamente
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# IDEs e editores
-.idea/
-*.swp
-*.swo
-.vscode/
-*.sublime-workspace
-
-# Sistema Operacional
-.DS_Store
-Thumbs.db
-
-# Outros
-*.gz
-*.tar
-*.zip
+# Arquivos de configuração local
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
-# Pasta que podem conter dados sensíveis
-certs/
-secret/
+# Arquivos de cache
+*.cache
 
-# Arquivos específicos do React
-/public
-/.cache/
-/coverage/
-/build/
+# Outros arquivos que devem ser ignorados
+.DS_Store
+.idea/
+*.swp
+*~
