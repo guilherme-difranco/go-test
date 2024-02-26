@@ -1,4 +1,3 @@
-```markdown
 # API de Gerenciamento de Tarefas com Frontend em React
 
 Este projeto inclui uma API para o gerenciamento de tarefas, juntamente com um frontend desenvolvido em React. A solução completa permite criar, listar, atualizar e deletar tarefas, destacando-se pela performance e escalabilidade, suportando alto volume de requisições. O projeto demonstra práticas de clean architecture, caching, otimizações específicas para o MongoDB, e uma interface de usuário amigável.
