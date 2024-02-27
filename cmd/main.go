@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -74,6 +75,13 @@ func main() {
 	router.GET("/statuses", statusController.FetchAll)
 
 	//route.Setup(env, timeout, db, router)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = env.ServerAddress // porta padrão se não houver variável de ambiente PORT
+	}
+	if err := router.Run(port); err != nil {
+		log.Fatal(err)
+	}
 
-	router.Run(env.ServerAddress)
+	router.Run(port)
 }
