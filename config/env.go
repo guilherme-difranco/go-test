@@ -3,8 +3,7 @@ package config
 import (
 	"log"
 	"os"
-
-	"github.com/spf13/viper"
+	"strconv"
 )
 
 type Env struct {
@@ -12,35 +11,28 @@ type Env struct {
 	ServerAddress  string `mapstructure:"SERVER_ADDRESS"`
 	ContextTimeout int    `mapstructure:"CONTEXT_TIMEOUT"`
 	DBHost         string `mapstructure:"DB_HOST"`
-	DBPort         string `mapstructure:"DB_PORT"`
 	DBUser         string `mapstructure:"DB_USER"`
 	DBPass         string `mapstructure:"DB_PASS"`
 	DBName         string `mapstructure:"DB_NAME"`
 }
 
 func NewEnv() *Env {
-	env := Env{}
-	setupViper()
 
-	err := viper.Unmarshal(&env)
+	contextTimeoutStr := os.Getenv("CONTEXT_TIMEOUT")
+	contextTimeout, err := strconv.Atoi(contextTimeoutStr)
 	if err != nil {
-		log.Fatalf("Environment can't be loaded: %v", err)
+		log.Fatalf("Erro ao converter CONTEXT_TIMEOUT para int: %v", err)
 	}
 
-	return &env
-}
-
-func setupViper() {
-	viper.AutomaticEnv() // Habilita a leitura de variáveis de ambiente
-
-	// Este bloco é opcional e só é necessário se você ainda quer suportar a leitura de um arquivo .env para desenvolvimento local
-	if os.Getenv("ENV") == "development" {
-		viper.SetConfigType("env")
-		viper.SetConfigName(".env")
-		viper.AddConfigPath(".")
-
-		if err := viper.ReadInConfig(); err == nil {
-			log.Println("Using .env file for configurations")
-		}
+	env_prod := Env{
+		AppEnv:         os.Getenv("APP_ENV"),
+		DBHost:         os.Getenv("DB_HOST"),
+		DBUser:         os.Getenv("DB_USER"),
+		DBPass:         os.Getenv("DB_PASS"),
+		DBName:         os.Getenv("DB_NAME"),
+		ServerAddress:  os.Getenv("SERVER_ADDRESS"),
+		ContextTimeout: contextTimeout,
 	}
+	return &env_prod
+
 }

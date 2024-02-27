@@ -1,6 +1,8 @@
 package config
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type Application struct {
 	Env   *Env
