@@ -2,6 +2,7 @@ package config
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -15,8 +16,17 @@ func NewMongoDatabase(env *Env) *mongo.Client {
 	defer cancel()
 
 	dbHost := env.DBHost
+	//dbPort := env.DBPort
+	dbUser := env.DBUser
+	dbPass := env.DBPass
 
-	clientOptions := options.Client().ApplyURI(dbHost)
+	mongodbURI := fmt.Sprintf("mongodb+srv://%s:%s@%s", dbUser, dbPass, dbHost)
+
+	if dbUser == "" || dbPass == "" {
+		mongodbURI = fmt.Sprintf("mongodb://%s", dbHost)
+	}
+
+	clientOptions := options.Client().ApplyURI(mongodbURI)
 	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal("Failed to create MongoDB client:", err)
