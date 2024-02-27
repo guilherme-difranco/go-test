@@ -14,6 +14,7 @@ type Env struct {
 	DBUser         string `mapstructure:"DB_USER"`
 	DBPass         string `mapstructure:"DB_PASS"`
 	DBName         string `mapstructure:"DB_NAME"`
+	DBPort         string `mapstructure:"DB_PORT"`
 }
 
 func NewEnv() *Env {
@@ -32,6 +33,7 @@ func NewEnv() *Env {
 		DBName:         os.Getenv("DB_NAME"),
 		ServerAddress:  os.Getenv("SERVER_ADDRESS"),
 		ContextTimeout: contextTimeout,
+		DBPort:         os.Getenv("DB_PORT"),
 	}
 	return &env_prod
 
