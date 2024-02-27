@@ -20,6 +20,7 @@ func NewMongoDatabase(env *Env) *mongo.Client {
 	dbUser := env.DBUser
 	dbPass := env.DBPass
 
+	log.Printf(dbHost)
 	mongodbURI := fmt.Sprintf("mongodb+srv://%s:%s@%s", dbUser, dbPass, dbHost)
 
 	if dbUser == "" || dbPass == "" {
