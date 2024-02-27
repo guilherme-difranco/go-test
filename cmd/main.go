@@ -76,7 +76,9 @@ func main() {
 
 	//route.Setup(env, timeout, db, router)
 	port := os.Getenv("PORT")
-	if port == "" {
+	if port != "" {
+		port = ":" + port
+	} else {
 		port = env.ServerAddress // porta padrão se não houver variável de ambiente PORT
 	}
 	if err := router.Run(port); err != nil {
