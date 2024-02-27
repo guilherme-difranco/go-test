@@ -2,6 +2,7 @@ package config
 
 import (
 	"log"
+	"os"
 
 	"github.com/spf13/viper"
 )
@@ -30,16 +31,16 @@ func NewEnv() *Env {
 }
 
 func setupViper() {
-	viper.AutomaticEnv() // Prioriza variáveis de ambiente sobre o arquivo .env
+	viper.AutomaticEnv() // Habilita a leitura de variáveis de ambiente
 
-	// Define o arquivo padrão .env para fallback
-	viper.SetConfigType("env")
-	viper.SetConfigName(".env")
-	viper.AddConfigPath(".")
-	viper.AddConfigPath("..") // Adiciona caminhos extras caso seja necessário
+	// Este bloco é opcional e só é necessário se você ainda quer suportar a leitura de um arquivo .env para desenvolvimento local
+	if os.Getenv("ENV") == "development" {
+		viper.SetConfigType("env")
+		viper.SetConfigName(".env")
+		viper.AddConfigPath(".")
 
-	// Tenta carregar o arquivo .env, mas não falha se não for encontrado
-	if err := viper.ReadInConfig(); err == nil {
-		log.Println("Using .env file for configurations")
+		if err := viper.ReadInConfig(); err == nil {
+			log.Println("Using .env file for configurations")
+		}
 	}
 }
